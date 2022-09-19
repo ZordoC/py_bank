@@ -12,3 +12,4 @@ pre-commit==2.20.0
 requests==2.24.0
 notebook==6.4.12
 docformatter==1.4
+mypy==0.971

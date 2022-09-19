@@ -70,7 +70,7 @@ docs: ## generate Sphinx HTML documentation, including API docs
 
 format:
 	isort py_bank tests
-	black py_bank tests
+	black -l 100 py_bank tests
 	docformatter --in-place --recursive py_bank tests
 
 install: clean ## install the package to the active Python's site-packages
@@ -80,8 +80,9 @@ jupyter:
 	jupyter notebook
 
 lint: ## lint using flake8 + pylint
-	flake8 py_bank tests
-	pylint  py_bank tests
+	flake8 py_bank
+	pylint  py_bank
+	mypy py_bank
 
 venv-dev:
 	pip install -r requirements_dev.txt
