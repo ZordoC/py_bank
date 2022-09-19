@@ -1,20 +1,23 @@
 """Module for domain-business models."""
 
-from dataclasses import dataclass, field
-from typing import  Literal
+from dataclasses import dataclass
+from typing import Literal
 
 
 @dataclass
 class Account:
     """Model for an Account."""
+
     account_id: str
-    money: float
+    balance: float
 
 
 @dataclass(frozen=True)
 class Transfer:
     """Model for a Transfer."""
+
+    transfer_id: str
     amount: float
-    type: Literal["IntraBank", "InterBank"]
-    source_id: str
-    source_is: str
+    transfer_type: Literal["IntraBank", "InterBank"]
+    src_account_id: str
+    dest_account_id: str

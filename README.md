@@ -21,7 +21,7 @@ don't have limits and they always succeed.
 - Inter-bank transfers, between accounts of different banks. They have 2,5€ commissions, they
 have a limit of 2000€ per transfer. And they have a 33% chance of failure.
 
-## Part 1 
+## Part 1
 
 Build up a REST back-end application that may perform the following actions:
 1. Method to query movements of local account.
@@ -76,5 +76,3 @@ This package was created with
 [Cookiecutter](https://github.com/audreyr/cookiecutter) and the
 [audreyr/cookiecutter-pypackage](https://github.com/audreyr/cookiecutter-pypackage)
 project template.
-
-

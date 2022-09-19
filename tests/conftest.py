@@ -3,8 +3,7 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import clear_mappers, sessionmaker
 
-
-from py_bank.service_layer import start_mappers, metadata
+from py_bank.service_layer import metadata, start_mappers
 
 
 @pytest.fixture
