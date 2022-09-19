@@ -10,12 +10,10 @@ def insert_accounts(session):
 
 
 def insert_transfers(session):
-    session.execute("INSERT INTO transfers (order_id, balance)" ' VALUES ("1AB", 1230.30)')
-
-
-def list_transfers(session):
-    accounts = session.query(Transfer).all()
-    return accounts
+    session.execute(
+        "INSERT INTO transfers (transfer_id, amount, transfer_type, src_account_id, dest_account_id)"
+        ' VALUES ("1", 1200, "IntraBank", "2AB", "1AB")'
+    )
 
 
 def list_accounts(session):
@@ -23,7 +21,18 @@ def list_accounts(session):
     return accounts
 
 
+def list_transfers(session):
+    transfers = session.query(Transfer).all()
+    return transfers
+
+
 def test_list_all_accounts(domain_session):
     insert_accounts(domain_session)
     accounts = list_accounts(domain_session)
     assert len(accounts) == 2
+
+
+def test_list_all_transfers(domain_session):
+    insert_transfers(domain_session)
+    transfers = list_transfers(domain_session)
+    assert len(transfers) == 1

@@ -12,7 +12,7 @@ class Account:
     balance: float
 
 
-@dataclass(frozen=True)
+@dataclass()
 class Transfer:
     """Model for a Transfer."""
 

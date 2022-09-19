@@ -17,9 +17,10 @@ transfers = Table(
     "Transfers",
     metadata,
     Column("transfer_id", String(255), primary_key=True),
-    Column("source_account_id", String(255)),
+    Column("transfer_type", String(30)),
+    Column("src_account_id", String(255)),
     Column("dest_account_id", String(255)),
-    Column("anount", Float(255), nullable=False),
+    Column("amount", Float(255), nullable=False),
 )
 
 
