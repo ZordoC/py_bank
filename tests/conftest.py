@@ -21,18 +21,18 @@ def domain_session(in_memory_db):
 
 
 def insert_accounts(session):
-    session.execute("INSERT INTO accounts (account_id, balance)" ' VALUES ("1", 1230.30)')
-    session.execute("INSERT INTO accounts (account_id, balance)" ' VALUES ("2", 40102.28)')
+    session.execute("INSERT INTO accounts (account_id, balance)" " VALUES (1, 1230.30)")
+    session.execute("INSERT INTO accounts (account_id, balance)" " VALUES (2, 40102.28)")
 
 
 def insert_transfers(session):
     session.execute(
         "INSERT INTO transfers (transfer_id, amount, transfer_type, src_account_id, dest_account_id)"
-        ' VALUES ("1", 1203.23, "IntraBank", "2", "1")'
+        ' VALUES (1, 1203.23, "IntraBank", 2, 1)'
     )
     session.execute(
         "INSERT INTO transfers (transfer_id, amount, transfer_type, src_account_id, dest_account_id)"
-        ' VALUES ("2", 320.13, "IntraBank", "10", "1")'
+        ' VALUES (2, 320.13, "IntraBank", 10, 1)'
     )
 
 

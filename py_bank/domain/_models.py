@@ -8,7 +8,7 @@ from typing import Literal
 class Account:
     """Model for an Account."""
 
-    account_id: str
+    account_id: int
     balance: float
 
 
@@ -16,8 +16,8 @@ class Account:
 class Transfer:
     """Model for a Transfer."""
 
-    transfer_id: str
+    transfer_id: int
     amount: float
     transfer_type: Literal["IntraBank", "InterBank"]
-    src_account_id: str
-    dest_account_id: str
+    src_account_id: int
+    dest_account_id: int
