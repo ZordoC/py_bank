@@ -7,7 +7,7 @@ import requests
 
 from . import _error_handling as error_handling
 from ._base import AbstractAgent
-from ._const import COMMISSIONS, FAILURE_CHANCE, MAXIMUM_INTER_TRANSFER
+from ._const import BANK_1_ID, BANK_2_ID, COMMISSIONS, FAILURE_CHANCE, MAXIMUM_INTER_TRANSFER
 from ._error import InterTransferFailed, InvalidBankID, OverAllowedAmount
 
 
@@ -20,7 +20,7 @@ class RequestsAgent(AbstractAgent):
 
         self.headers = {"Content-Type": "application/json"}
 
-    def list_accounts(self, bank_id: str) -> str:
+    def list_accounts(self, bank_id: str) -> requests.Response:
         """List all accounts of a bank.
 
         Args:
@@ -29,11 +29,33 @@ class RequestsAgent(AbstractAgent):
         Returns:
             string: List of all accounts in string format.
         """
+        if bank_id not in (BANK_1_ID, BANK_2_ID):
+            raise InvalidBankID("No such bank ID exists")
+
         base_url = self._get_url_from_bank_id(bank_id)
 
         response = requests.request("GET", f"{base_url}/list_accounts", headers=self.headers)
 
-        return response.text
+        return response
+
+    def list_transfers(self, bank_id: str, account_id: int) -> requests.Response:
+        """List transfers of an account in a particular bank.
+
+        Args:
+            bank_id (str): Bank Indentifier
+            account (int): Account Identifier
+
+        Returns:
+            str: String representation of all the transfers of an account.
+        """
+        if bank_id not in (BANK_1_ID, BANK_2_ID):
+            raise InvalidBankID("No such bank ID exists")
+
+        base_url = self._get_url_from_bank_id(bank_id)
+
+        response = requests.request("GET", f"{base_url}/{account_id}/list", headers=self.headers)
+
+        return response
 
     def inter_transfer(
         self,

@@ -14,9 +14,6 @@ from py_bank.service_layer import (
     InsuficientBalance,
 )
 
-from sqlalchemy.orm import Session
-
-from tests.conftest import domain_session
 
 from py_bank.domain import Account
 
@@ -36,7 +33,7 @@ with app.app_context():
 @app.route("/<account_id>/list", methods=["GET"])
 def list_transfers(account_id: str):
     res = list_account_transfers(db_session, int(account_id))
-    return f"Result {res}", 200
+    return res, 200
 
 
 @app.route("/transfer", methods=["POST"])
@@ -111,4 +108,4 @@ def remove(account_id):
 @app.route("/list_accounts", methods=["GET"])
 def list_accounts():
     res = db_session.query(Account).all()
-    return f"Result {res}", 200
+    return res, 200

@@ -30,7 +30,7 @@ def send_money_inter(agent: AbstractAgent, amount: float, sender: str, receiver:
     """Send money from one person to the other ()
 
     Args:
-        agent (AbstractAgent): Any agent that follows the implementation.
+        agent (AbstractAgent): Any transfer agent that follows the interface.
     """
     if ACCOUNT_MAPPING[sender]["bank_id"] == ACCOUNT_MAPPING[receiver]["bank_id"]:
         raise ValueError("Same Bank ID")
@@ -80,14 +80,14 @@ def send_money_intra(agent: AbstractAgent, amount: float, sender: str, receiver:
     """Send monkey within the same bank.
 
     Args:
-        agent (AbstractAgent): _description_
-        amount (float): _description_
-        sender (str): _description_
-        receiver (str): _description_
-        bank_id (str): _description_
+        agent (AbstractAgent): Any transfer agent that follows the interface.
+        amount (float): Money to be sent
+        sender (str): Sender Name.
+        receiver (str): Receiver name.
+        bank_id (str): Bank Identifier.
     """
     if ACCOUNT_MAPPING[sender]["bank_id"] != ACCOUNT_MAPPING[receiver]["bank_id"]:
-        raise ValueError("Same Bank ID")
+        raise ValueError("Different Bank ID")
 
     bank_id = ACCOUNT_MAPPING[sender]["bank_id"]
     agent.intra_transfer(
@@ -129,6 +129,24 @@ def _main():
 
     logging.info("Bank 1 accounts: %s", bank_1_accounts)
     logging.info("Bank 2 accounts: %s", bank_2_accounts)
+
+    logging.info("\n \n ### Listing Transfers of accounts involved  ###")
+    logging.info(
+        "Jimmy: %s \n \n",
+        agent.list_transfers(ACCOUNT_MAPPING["Jimmy"]["bank_id"], ACCOUNT_MAPPING["Jimmy"]["acc_id"]).json(),
+    )
+    logging.info(
+        "Emma: %s \n \n",
+        agent.list_transfers(ACCOUNT_MAPPING["Emma"]["bank_id"], ACCOUNT_MAPPING["Emma"]["acc_id"]).json(),
+    )
+    logging.info(
+        "Steve: %s \n \n",
+        agent.list_transfers(ACCOUNT_MAPPING["Steve"]["bank_id"], ACCOUNT_MAPPING["Steve"]["acc_id"]).json(),
+    )
+    logging.info(
+        "Sarah: %s \n \n",
+        agent.list_transfers(ACCOUNT_MAPPING["Sarah"]["bank_id"], ACCOUNT_MAPPING["Sarah"]["acc_id"]).json(),
+    )
 
 
 if __name__ == "__main__":
