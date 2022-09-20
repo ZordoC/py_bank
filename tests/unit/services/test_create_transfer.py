@@ -1,4 +1,4 @@
-"""Module to test ``py_bank.service_layer.services.create_transfer"""
+"""Module to test ``py_bank.service_layer.services.create_transfer."""
 import random
 
 import pytest
@@ -15,6 +15,4 @@ def test_create_transfer(domain_session):
 
     transfer = create_transfer(domain_session, "1", "2", 200, "Test")
 
-    assert transfer == Transfer(new_id , 200, "IntraBank", "1", "2", "Test")
-
-
+    assert transfer == Transfer(new_id, 200, "IntraBank", "1", "2", "Test")

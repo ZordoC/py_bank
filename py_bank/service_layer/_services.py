@@ -58,7 +58,14 @@ def intra_money_transfer(
     session.commit()
 
 
-def create_transfer(session, source_id: int, dest_id: int, amount: float, info: str, transfer_type: Literal["IntraBank", "InterBank"] = "IntraBank"):
+def create_transfer(
+    session,
+    source_id: int,
+    dest_id: int,
+    amount: float,
+    info: str,
+    transfer_type: Literal["IntraBank", "InterBank"] = "IntraBank",
+):
     """Add a Transfer to records.
 
     Args:
