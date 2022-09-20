@@ -14,6 +14,7 @@ class AbstractAgent(ABC):
         dest_acc_id: int,
         amount: float,
         info: str,
+        failure_chance: int
     ):
         """Performs a transfer across two distinct banks.
 
