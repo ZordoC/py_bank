@@ -1,11 +1,8 @@
 """Module for the service layer."""
-from ._error import AccountNotFound, InsuficientBalance
 from ._orm import metadata, start_mappers
 from ._services import add_funds, create_transfer, intra_money_transfer, list_account_transfers, remove_funds
 
 __all__ = [
-    "AccountNotFound",
-    "InsuficientBalance",
     "add_funds",
     "create_transfer",
     "start_mappers",

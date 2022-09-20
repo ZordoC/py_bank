@@ -1,10 +1,9 @@
 """Error handling."""
 import requests
 
-from py_bank.service_layer import AccountNotFound, InsuficientBalance
+from py_bank.errors import AccountNotFound, AgentError, InsuficientBalance, InvalidBankID
 
 from ._const import BANK_1_ID, BANK_2_ID
-from ._error import AgentError, InvalidBankID
 
 
 def handle_reponses(response: requests.Response):

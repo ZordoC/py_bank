@@ -6,7 +6,8 @@ import random
 import pytest
 
 from py_bank.domain import Account
-from py_bank.service_layer import AccountNotFound, add_funds
+from py_bank.errors import AccountNotFound
+from py_bank.service_layer import add_funds
 
 
 def test_add_happy_path(domain_session):

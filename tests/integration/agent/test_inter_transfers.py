@@ -1,8 +1,8 @@
 """Module to test inter transfers using ``AbstractAgent`` class types."""
 import pytest
 
-from py_bank.service_layer import AccountNotFound, InsuficientBalance
-from py_bank.transfer_agent import ACCOUNT_MAPPING, InterTransferFailed, InvalidBankID, OverAllowedAmount, RequestsAgent
+from py_bank.errors import AccountNotFound, InsuficientBalance, InterTransferFailed, InvalidBankID, OverAllowedAmount
+from py_bank.transfer_agent import ACCOUNT_MAPPING
 
 
 def test_insuficient_balance(agent):

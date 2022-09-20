@@ -7,7 +7,8 @@ import pytest
 from sqlalchemy import func
 
 from py_bank.domain import Account, Transfer
-from py_bank.service_layer import AccountNotFound, InsuficientBalance, intra_money_transfer
+from py_bank.errors import AccountNotFound, InsuficientBalance
+from py_bank.service_layer import intra_money_transfer
 
 
 def test_successfull_intra_transfer(domain_session):

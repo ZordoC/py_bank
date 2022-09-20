@@ -15,15 +15,8 @@ her sister Sara who has an account at the second bank.
 import logging
 from time import sleep
 
-from py_bank.transfer_agent import (
-    ACCOUNT_MAPPING,
-    MAXIMUM_INTER_TRANSFER,
-    URL_1,
-    URL_2,
-    AbstractAgent,
-    InterTransferFailed,
-    RequestsAgent,
-)
+from py_bank.errors import InterTransferFailed
+from py_bank.transfer_agent import ACCOUNT_MAPPING, MAXIMUM_INTER_TRANSFER, URL_1, URL_2, AbstractAgent, RequestsAgent
 
 
 def send_money_inter(agent: AbstractAgent, amount: float, sender: str, receiver: str, info: str):

@@ -6,7 +6,8 @@ import random
 import pytest
 
 from py_bank.domain import Account
-from py_bank.service_layer import AccountNotFound, InsuficientBalance, remove_funds
+from py_bank.errors import AccountNotFound, InsuficientBalance
+from py_bank.service_layer import remove_funds
 
 
 def test_remove_fund_happy_path(domain_session):

@@ -5,10 +5,11 @@ import random
 
 import requests
 
+from py_bank.errors import InterTransferFailed, InvalidBankID, OverAllowedAmount
+
 from . import _error_handling as error_handling
 from ._base import AbstractAgent
 from ._const import BANK_1_ID, BANK_2_ID, COMISSIONS, FAILURE_CHANCE, MAXIMUM_INTER_TRANSFER
-from ._error import InterTransferFailed, InvalidBankID, OverAllowedAmount
 
 
 class RequestsAgent(AbstractAgent):

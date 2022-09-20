@@ -6,8 +6,7 @@ from sqlalchemy.exc import NoResultFound  # type: ignore[attr-defined]
 from sqlalchemy.orm.session import Session
 
 from py_bank.domain._models import Account, Transfer
-
-from ._error import AccountNotFound, InsuficientBalance
+from py_bank.errors import AccountNotFound, InsuficientBalance
 
 # pylint: disable=W0613
 
