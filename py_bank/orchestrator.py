@@ -48,7 +48,7 @@ def send_money_inter(agent: AbstractAgent, amount: float, sender: str, receiver:
             )
             i += 1
         except InterTransferFailed:
-            print("Failure ... retrying")
+            logging.warning("Failure ... retrying")
 
     if left:
         status_code = 0
@@ -64,7 +64,7 @@ def send_money_inter(agent: AbstractAgent, amount: float, sender: str, receiver:
                     failure_chance=0,
                 )
             except InterTransferFailed:
-                print("Failure ... retrying")
+                logging.warning("Failure ... retrying")
                 sleep(1)
                 continue
 
