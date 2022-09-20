@@ -102,8 +102,8 @@ def _main():
 
     logging.info("Starting payment pipeline")
 
-    logging.info("Bank 1 accounts: %s", bank_1_accounts)
-    logging.info("Bank 2 accounts: %s", bank_2_accounts)
+    logging.info("Bank 1 accounts: %s", bank_1_accounts.json())
+    logging.info("Bank 2 accounts: %s", bank_2_accounts.json())
 
     # Jimmy needs to  pay Emma 20000.
     send_money_inter(agent, 20000, "Jimmy", "Emma", "Sorry for the delay, Emma!")
@@ -120,8 +120,8 @@ def _main():
     bank_1_accounts = agent.list_accounts("BANK1")
     bank_2_accounts = agent.list_accounts("BANK2")
 
-    logging.info("Bank 1 accounts: %s", bank_1_accounts)
-    logging.info("Bank 2 accounts: %s", bank_2_accounts)
+    logging.info("Bank 1 accounts: %s", bank_1_accounts.json())
+    logging.info("Bank 2 accounts: %s", bank_2_accounts.json())
 
     logging.info("\n \n ### Listing Transfers of accounts involved  ###")
     logging.info(
