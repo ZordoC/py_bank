@@ -8,6 +8,7 @@ from typing import Literal
 class Account:
     """Model for an Account."""
 
+    account_owner: str
     account_id: int
     balance: float
 
@@ -21,3 +22,4 @@ class Transfer:
     transfer_type: Literal["IntraBank", "InterBank"]
     src_account_id: int
     dest_account_id: int
+    info: str = "Test"

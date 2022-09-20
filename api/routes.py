@@ -1,7 +1,6 @@
 """Routes for API."""
 from flask import request
-from api import app
-from api.database import db_session
+from api import app, FLAG
 
 from py_bank.service_layer import (
     add_funds,
@@ -11,6 +10,21 @@ from py_bank.service_layer import (
     AccountNotFound,
     InsuficientBalance,
 )
+
+from transfer_agent import RequestsAgent
+
+
+with app.app_context():
+    from py_bank.service_layer import create_db_session, add_data_bank_2, add_data_bank_1
+    db_session = create_db_session(FLAG)
+
+    if FLAG == "BANK1":
+        add_data_bank_1(db_session)
+    elif FLAG == "BANK2":
+        add_data_bank_2(db_session)
+
+
+agent  = RequestsAgent("1", "2")
 
 
 @app.route("/<account_id>/list", methods=["GET"])
@@ -47,6 +61,7 @@ def add(account_id):
     body = request.json
     account_id = int(account_id)
     body = request.json
+
     try:
         add_funds(db_session, account_id, body["amount"])
         return f"Successfully added funds to account {account_id}"
@@ -63,6 +78,10 @@ def remove(account_id):
     """
     account_id = int(account_id)
     body = request.json
+    if body.dest_bank:
+        # agent queries adds amount to other bank
+        pass
+
     try:
         remove_funds(db_session, account_id, body["amount"])
         return f"Successfully removed funds to account {account_id}"

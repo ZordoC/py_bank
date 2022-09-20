@@ -61,6 +61,27 @@ account does not have funding, or any other kind of possible errors.
     “info”: “Short string describing the purpose of the transfer”
 }
 
+## Part 2
+
+Create an initial system consisting of two banks with at least two different accounts each. Consider
+each bank a separate invocation of your back-end application listening at a different port and using a
+separate database.
+
+Now, let’s start the fun part of the test. Jim has an account on the first bank and Emma has an account
+on the second bank. Jim owns Emma 20000€. Emma is already a bit angry, because she did not get the
+money although Jim told her that he already sent it.
+
+Help Jim send his money by developing a transfer agent. You have to build up a transfer agent client
+application that will consume your API, and perform transfers between those two banks.
+This agent assures that everybody gets their money. When the agent receives an order to transfer money
+from account A to account B, he issues transfers considering commissions, transfer limits and
+possibility of transfer failures.
+
+Now that Emma has received the money, please help her to pay her rent of 2500€ by issuing a transfer
+to her landlord Steve who has an account at the first bank. She also wants to send a transfer of 3000€ to
+her sister Sara who has an account at the second bank.
+
+
 -   Free software: MIT license
 -   Documentation: <https://py-bank.readthedocs.io>.
 

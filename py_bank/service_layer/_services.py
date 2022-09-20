@@ -1,4 +1,6 @@
 """Module contains the different services used."""
+from typing import Literal
+
 from sqlalchemy import func
 from sqlalchemy.exc import NoResultFound  # type: ignore[attr-defined]
 from sqlalchemy.orm.session import Session
@@ -23,7 +25,9 @@ def list_account_transfers(
     return transfers
 
 
-def intra_money_transfer(session: Session, source_id: int, dest_id: int, amount: float):
+def intra_money_transfer(
+    session: Session, source_id: int, dest_id: int, amount: float, info: str = ""
+):
     """Perform an intra-bank transfer.
 
     Args:
@@ -48,13 +52,13 @@ def intra_money_transfer(session: Session, source_id: int, dest_id: int, amount:
     dest.balance += amount
     sender.balance -= amount
 
-    transfer = _create_transfer(session, source_id, dest_id, amount)
+    transfer = create_transfer(session, source_id, dest_id, amount, info)
 
     session.add(transfer)
     session.commit()
 
 
-def _create_transfer(session, source_id: int, dest_id: int, amount: float):
+def create_transfer(session, source_id: int, dest_id: int, amount: float, info: str, transfer_type: Literal["IntraBank", "InterBank"] = "IntraBank"):
     """Add a Transfer to records.
 
     Args:
@@ -65,7 +69,7 @@ def _create_transfer(session, source_id: int, dest_id: int, amount: float):
     """
     largest_id = session.query(func.max(Transfer.transfer_id)).one()[0]
     new_id = largest_id + 1  # hacky way to make sure it's doesn't break primary key constraint.
-    return Transfer(new_id, amount, "IntraBank", source_id, dest_id)
+    return Transfer(new_id, amount, transfer_type, source_id, dest_id, info)
 
 
 def add_funds(session: Session, account_id: str, amount: float):
