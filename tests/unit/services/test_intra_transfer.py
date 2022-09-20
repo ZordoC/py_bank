@@ -14,9 +14,7 @@ def test_successfull_intra_transfer(domain_session):
     source_id = 1
     dest_id = 2
 
-    before_sender_balance = (
-        domain_session.query(Account).filter_by(account_id=source_id).one().balance
-    )
+    before_sender_balance = domain_session.query(Account).filter_by(account_id=source_id).one().balance
 
     # To make sure we are sending less money than sender has
     transfered_amount = before_sender_balance - random.randrange(
@@ -27,25 +25,17 @@ def test_successfull_intra_transfer(domain_session):
 
     intra_money_transfer(domain_session, source_id, dest_id, transfered_amount)
 
-    after_sender_balance = (
-        domain_session.query(Account).filter_by(account_id=source_id).one().balance
-    )
+    after_sender_balance = domain_session.query(Account).filter_by(account_id=source_id).one().balance
     after_dest_balance = domain_session.query(Account).filter_by(account_id=dest_id).one().balance
 
-    assert (
-        after_dest_balance - transfered_amount == before_dest_balance
-    )  # destination "gained" amount.
-    assert (
-        after_sender_balance + transfered_amount == before_sender_balance
-    )  # sender "lost" amount.
+    assert after_dest_balance - transfered_amount == before_dest_balance  # destination "gained" amount.
+    assert after_sender_balance + transfered_amount == before_sender_balance  # sender "lost" amount.
 
 
 def test_insufficient_balance_intra_transfer(domain_session):
     source_id = 1
     dest_id = 2
-    before_sender_balance = (
-        domain_session.query(Account).filter_by(account_id=source_id).one().balance
-    )
+    before_sender_balance = domain_session.query(Account).filter_by(account_id=source_id).one().balance
 
     # To make sure we are sending more money than sender has
     transfered_amount = before_sender_balance + random.randrange(10, 100)  # random integer
@@ -81,9 +71,7 @@ def test_intra_transfer_generated_transfer(domain_session):
     source_id = "1"
     dest_id = "2"
 
-    before_sender_balance = (
-        domain_session.query(Account).filter_by(account_id=source_id).one().balance
-    )
+    before_sender_balance = domain_session.query(Account).filter_by(account_id=source_id).one().balance
 
     # To make sure we are sending less money than sender has
     transfered_amount = before_sender_balance - random.randrange(10, 100)  # random integer

@@ -17,12 +17,12 @@ from time import sleep
 
 from py_bank.transfer_agent import (
     ACCOUNT_MAPPING,
+    MAXIMUM_INTER_TRANSFER,
     URL_1,
     URL_2,
-    MAXIMUM_INTER_TRANSFER,
     AbstractAgent,
-    RequestsAgent,
     InterTransferFailed,
+    RequestsAgent,
 )
 
 
@@ -45,19 +45,18 @@ def send_money_inter(agent: AbstractAgent, amount: float, sender: str, receiver:
     while i < batches:
         try:
             status_code = agent.inter_transfer(
-                source_bank_id=ACCOUNT_MAPPING[sender]["bank_id"],
-                dest_bank_id=ACCOUNT_MAPPING[receiver]["bank_id"],
-                src_acc_id=ACCOUNT_MAPPING[sender]["acc_id"],
-                dest_acc_id=ACCOUNT_MAPPING[receiver]["acc_id"],
+                source_bank_id=str(ACCOUNT_MAPPING[sender]["bank_id"]),
+                dest_bank_id=str(ACCOUNT_MAPPING[receiver]["bank_id"]),
+                src_acc_id=int(ACCOUNT_MAPPING[sender]["acc_id"]),
+                dest_acc_id=int(ACCOUNT_MAPPING[receiver]["acc_id"]),
                 amount=MAXIMUM_INTER_TRANSFER,
-                info= info,
-                failure_chance=0
-                
+                info=info,
+                failure_chance=0,
             )
             i += 1
         except InterTransferFailed:
             print("Failure ... retrying")
-            pass
+
     if left:
         status_code = 0
         while status_code != 200:
@@ -69,7 +68,7 @@ def send_money_inter(agent: AbstractAgent, amount: float, sender: str, receiver:
                     dest_acc_id=ACCOUNT_MAPPING[receiver]["acc_id"],
                     amount=left,
                     info=info,
-                    failure_chance=0
+                    failure_chance=0,
                 )
             except InterTransferFailed:
                 print("Failure ... retrying")
@@ -91,16 +90,22 @@ def send_money_intra(agent: AbstractAgent, amount: float, sender: str, receiver:
         raise ValueError("Same Bank ID")
 
     bank_id = ACCOUNT_MAPPING[sender]["bank_id"]
-    agent.intra_transfer(bank_id,ACCOUNT_MAPPING[sender]["acc_id"], ACCOUNT_MAPPING[receiver]["acc_id"], amount, info)
+    agent.intra_transfer(
+        bank_id,
+        ACCOUNT_MAPPING[sender]["acc_id"],
+        ACCOUNT_MAPPING[receiver]["acc_id"],
+        amount,
+        info,
+    )
+
 
 def _main():
-    agent = RequestsAgent(URL_1, URL_2) # Applying DIP
+    agent = RequestsAgent(URL_1, URL_2)  # Applying DIP
 
     bank_1_accounts = agent.list_accounts("BANK1")
     bank_2_accounts = agent.list_accounts("BANK2")
 
-    logging.basicConfig(format='%(levelname)s:  %(message)s', level=logging.INFO)
-
+    logging.basicConfig(format="%(levelname)s:  %(message)s", level=logging.INFO)
 
     logging.info("Starting payment pipeline")
 
@@ -108,7 +113,7 @@ def _main():
     logging.info("Bank 2 accounts: %s", bank_2_accounts)
 
     # Jimmy needs to  pay Emma 20000.
-    send_money_inter(agent, 20000, "Jimmy", "Emma", "Sorry for the delay, Emma!" )
+    send_money_inter(agent, 20000, "Jimmy", "Emma", "Sorry for the delay, Emma!")
     logging.info("Emma received money from Jimmy.")
     # Emma pays rent to her Landlord Steve.
     send_money_inter(agent, 2500, "Emma", "Steve", "September's Rent")
@@ -126,17 +131,5 @@ def _main():
     logging.info("Bank 2 accounts: %s", bank_2_accounts)
 
 
-
 if __name__ == "__main__":
     _main()
-
-
-# INFO:  Starting payment pipeline
-# INFO:  Bank 1 accounts: Result [Account(account_owner='Luke', account_id=1, balance=1230.3), Account(account_owner='Jimmy', account_id=2, balance=500000.28), Account(account_owner='Steve', account_id=3, balance=25000.0)]
-# INFO:  Bank 1 accounts: Result [Account(account_owner='Sarah', account_id=1, balance=1230.3), Account(account_owner='Emma', account_id=2, balance=2000.28)]
-# INFO:  Emma received money from Jimmy.
-# INFO:  Steve received money from Emma.
-# INFO:  Sarah received money from Emma.
-# INFO:  Pipeline Finished
-# INFO:  Bank 1 accounts: Result [Account(account_owner='Luke', account_id=1, balance=1230.3), Account(account_owner='Jimmy', account_id=2, balance=480000.28), Account(account_owner='Steve', account_id=3, balance=27497.5)]
-# INFO:  Bank 1 accounts: Result [Account(account_owner='Sarah', account_id=1, balance=4230.3), Account(account_owner='Emma', account_id=2, balance=16480.28)]

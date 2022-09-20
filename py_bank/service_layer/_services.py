@@ -25,9 +25,7 @@ def list_account_transfers(
     return transfers
 
 
-def intra_money_transfer(
-    session: Session, source_id: int, dest_id: int, amount: float, info: str = ""
-):
+def intra_money_transfer(session: Session, source_id: int, dest_id: int, amount: float, info: str = ""):
     """Perform an intra-bank transfer.
 
     Args:
@@ -65,7 +63,7 @@ def create_transfer(
     amount: float,
     info: str,
     transfer_type: Literal["IntraBank", "InterBank"] = "IntraBank",
-):
+):  # pylint: disable=too-many-arguments
     """Add a Transfer to records.
 
     Args:

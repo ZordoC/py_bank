@@ -70,7 +70,7 @@ docs: ## generate Sphinx HTML documentation, including API docs
 
 format:
 	isort py_bank tests
-	black -l 100 py_bank tests
+	black -l 120 py_bank tests
 	docformatter --in-place --recursive py_bank tests
 
 install: clean ## install the package to the active Python's site-packages

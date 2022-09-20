@@ -7,7 +7,7 @@ import requests
 
 from . import _error_handling as error_handling
 from ._base import AbstractAgent
-from ._const import BANK_1_ID, BANK_2_ID, COMMISSIONS, FAILURE_CHANCE, MAXIMUM_INTER_TRANSFER
+from ._const import COMMISSIONS, FAILURE_CHANCE, MAXIMUM_INTER_TRANSFER
 from ._error import InterTransferFailed, InvalidBankID, OverAllowedAmount
 
 
@@ -20,7 +20,15 @@ class RequestsAgent(AbstractAgent):
 
         self.headers = {"Content-Type": "application/json"}
 
-    def list_accounts(self, bank_id: str):
+    def list_accounts(self, bank_id: str) -> str:
+        """List all accounts of a bank.
+
+        Args:
+            bank_id (str): Bank Identifier.
+
+        Returns:
+            string: List of all accounts in string format.
+        """
         base_url = self._get_url_from_bank_id(bank_id)
 
         response = requests.request("GET", f"{base_url}/list_accounts", headers=self.headers)
@@ -36,7 +44,8 @@ class RequestsAgent(AbstractAgent):
         amount: float,
         info: str,
         failure_chance: int = FAILURE_CHANCE,
-    ):
+    ):  # pylint: disable=too-many-arguments
+
         """Performs a transfer across banks.
 
         Args:
@@ -51,7 +60,7 @@ class RequestsAgent(AbstractAgent):
             )
         chance = random.randint(1, 100)
         if chance <= failure_chance:
-            raise InterTransferFailed(f"Transfer Failed ...")
+            raise InterTransferFailed("Transfer Failed ...")
 
         error_handling.check_bank_ids(source_bank_id, dest_bank_id)
 
@@ -69,7 +78,7 @@ class RequestsAgent(AbstractAgent):
 
     def intra_transfer(
         self, bank_id: str, src_acc_id: int, dest_acc_id: int, amount: float, info: str
-    ):
+    ):  # pylint: disable=too-many-arguments
         """_summary_
 
         Args:
@@ -84,67 +93,55 @@ class RequestsAgent(AbstractAgent):
 
         url = f"{base_url}/transfer"
 
-        payload = json.dumps(
-            {"source": src_acc_id, "destination": dest_acc_id, "amount": amount, "info": info}
-        )
+        payload = json.dumps({"source": src_acc_id, "destination": dest_acc_id, "amount": amount, "info": info})
 
         response = requests.request("POST", url, headers=self.headers, data=payload)
 
         return response
 
-    def _check_bank_ids(source_bank_id: str, dest_bank_id: str):
-        if source_bank_id != (BANK_2_ID, BANK_1_ID) or dest_bank_id not in (BANK_2_ID, BANK_1_ID):
-            raise InvalidBankID("Not a valid bank id")
-        return True
-
     def _add(self, bank_id: str, account_id: int, amount: float, info: str):
-        """_summary_
+        """Call api ``add`` route to add funds to an account of a bank.
 
         Args:
-            account_id (int): _description_
-            bank_id (str): _description_
-            amount (float): _description_
-            info (str): _description_
+            account_id (int): Account of the operation
+            bank_id (str): Bank Identifier.
+            amount (float): Amount to add.
+            info (str): Information about transfer.
         """
         payload = json.dumps({"amount": amount, "src_bank": bank_id, "info": info})
 
         bank_url = self._get_url_from_bank_id(bank_id)
 
-        response = requests.request(
-            "PUT", f"{bank_url}/{account_id}/add", headers=self.headers, data=payload
-        )
+        response = requests.request("PUT", f"{bank_url}/{account_id}/add", headers=self.headers, data=payload)
         return response
 
     def _remove(self, bank_id: str, account_id: int, amount: float, info: str):
-        """_summary_
+        """Call api ``retire`` route to add funds to an account of a bank.
 
         Args:
-            account_id (int): _description_
-            dest_bank_id (str): _description_
-            amount (float): _description_
-            info (str): _description_
+            account_id (int): Account of the operation
+            bank_id (str): Bank Identifier.
+            amount (float): Amount to retire.
+            info (str): Information about transfer.
         """
         payload = json.dumps({"amount": amount, "dest_bank": bank_id, "info": info})
 
         bank_url = self._get_url_from_bank_id(bank_id)
 
-        response = requests.request(
-            "PUT", f"{bank_url}/{account_id}/retire", headers=self.headers, data=payload
-        )
+        response = requests.request("PUT", f"{bank_url}/{account_id}/retire", headers=self.headers, data=payload)
         return response
 
     def _get_url_from_bank_id(self, bank_id: str) -> str:
         """Get for bank api endpoint.
 
         Args:
-            bank_id (str): _description_
+            bank_id (str): Bank Identifier.
 
         Returns:
-            str: _description_
+            str: Base URL for requests module.
         """
         if bank_id == "BANK1":
             return self.bank_1_url
-        elif bank_id == "BANK2":
+        if bank_id == "BANK2":
             return self.bank_2_url
-        else:
-            raise InvalidBankID("Invalid bank ID when fetching URL.")
+        raise InvalidBankID("Invalid bank ID when fetching URL.")

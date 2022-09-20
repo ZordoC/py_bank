@@ -16,9 +16,7 @@ def test_remove_fund_happy_path(domain_session):
 
     remove_funds(domain_session, account.account_id, amount)
 
-    new_balance = (
-        domain_session.query(Account).filter_by(account_id=account.account_id).one().balance
-    )
+    new_balance = domain_session.query(Account).filter_by(account_id=account.account_id).one().balance
 
     assert new_balance == balance - amount
 

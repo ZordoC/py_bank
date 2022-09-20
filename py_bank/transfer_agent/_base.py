@@ -1,6 +1,8 @@
 """Abstract class module for an ``Agent``"""
 from abc import ABC, abstractmethod
 
+# pylint: disable=too-many-arguments
+
 
 class AbstractAgent(ABC):
     """Agent facilitates transfers between two distinct banks,"""
@@ -14,7 +16,7 @@ class AbstractAgent(ABC):
         dest_acc_id: int,
         amount: float,
         info: str,
-        failure_chance: int
+        failure_chance: int,
     ):
         """Performs a transfer across two distinct banks.
 
@@ -27,9 +29,7 @@ class AbstractAgent(ABC):
         raise NotImplementedError("Interface does not have implementation")
 
     @abstractmethod
-    def intra_transfer(
-        self, bank_id: str, src_acc_id: int, dest_acc_id: int, amount: float, info: str
-    ):
+    def intra_transfer(self, bank_id: str, src_acc_id: int, dest_acc_id: int, amount: float, info: str):
         """Peforms a transfer within the same bank.
 
         Args:

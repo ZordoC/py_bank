@@ -2,12 +2,7 @@
 import pytest
 
 from py_bank.service_layer import AccountNotFound, InsuficientBalance
-from py_bank.transfer_agent import (
-    InterTransferFailed,
-    InvalidBankID,
-    OverAllowedAmount,
-    RequestsAgent,
-)
+from py_bank.transfer_agent import InterTransferFailed, InvalidBankID, OverAllowedAmount, RequestsAgent
 
 ACCOUNT_MAPS = {
     "Luke": {"acc_id": 1, "bank_id": "BANK1"},
