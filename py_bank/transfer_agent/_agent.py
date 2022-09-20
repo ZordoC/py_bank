@@ -87,11 +87,9 @@ class RequestsAgent(AbstractAgent):
 
         error_handling.check_bank_ids(source_bank_id, dest_bank_id)
 
-        response = self._remove(source_bank_id, src_acc_id, amount, info)
+        response = self._remove(source_bank_id, src_acc_id, amount + COMISSIONS, info)
 
         error_handling.handle_reponses(response)
-
-        amount = amount - COMISSIONS
 
         response = self._add(dest_bank_id, dest_acc_id, amount, info)
 
