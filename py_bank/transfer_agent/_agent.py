@@ -7,7 +7,7 @@ import requests
 
 from . import _error_handling as error_handling
 from ._base import AbstractAgent
-from ._const import BANK_1_ID, BANK_2_ID, COMMISSIONS, FAILURE_CHANCE, MAXIMUM_INTER_TRANSFER
+from ._const import BANK_1_ID, BANK_2_ID, COMISSIONS, FAILURE_CHANCE, MAXIMUM_INTER_TRANSFER
 from ._error import InterTransferFailed, InvalidBankID, OverAllowedAmount
 
 
@@ -90,7 +90,7 @@ class RequestsAgent(AbstractAgent):
 
         error_handling.handle_reponses(response)
 
-        amount = amount - COMMISSIONS
+        amount = amount - COMISSIONS
 
         response = self._add(dest_bank_id, dest_acc_id, amount, info)
 

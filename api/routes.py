@@ -14,6 +14,7 @@ from py_bank.service_layer import (
     InsuficientBalance,
 )
 
+from py_bank.transfer_agent import COMISSIONS
 
 from py_bank.domain import Account
 
@@ -91,7 +92,7 @@ def remove(account_id):
     try:
         remove_funds(db_session, account_id, body["amount"])
         if body['dest_bank']:
-            transfer = create_transfer(db_session, account_id, 0, body["amount"], info=body['info'], transfer_type="InterBank")
+            transfer = create_transfer(db_session, account_id, 0, body["amount"] - COMISSIONS, info=body['info'], transfer_type="InterBank")
             db_session.add(transfer)
             db_session.commit()
             app.logger.info('%s Recorded Inter Transaction successfully.')

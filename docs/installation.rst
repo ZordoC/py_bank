@@ -16,11 +16,7 @@ You can either clone the public repository:
 
     $ git clone git://github.com/ZordoC/py_bank
 
-Or download the `tarball`_:
 
-.. code-block:: console
-
-    $ curl -OJL https://github.com/ZordoC/py_bank/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -28,6 +24,12 @@ Once you have a copy of the source, you can install it with:
 
     $ python setup.py install
 
+
+
+Or via Makefile:
+.. code-block:: console
+
+    $ make install
 
 .. _Github repo: https://github.com/ZordoC/py_bank
 .. _tarball: https://github.com/ZordoC/py_bank/tarball/master

@@ -104,6 +104,9 @@ tests-e2e:
 
 tests-basic: tests-unit test-integration
 
+simple-http:
+	python3 -m http.server
+
 
 servedocs: docs ## compile the docs watching for changes
 	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
