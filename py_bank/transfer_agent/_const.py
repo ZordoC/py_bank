@@ -1,0 +1,9 @@
+"""Module for constants."""
+
+
+BANK_1_ID = "BANK1"
+BANK_2_ID = "BANK2"
+
+MAXIMUM_INTER_TRANSFER = 2500
+COMMISSIONS = 2.5
+FAILURE_CHANCE = 33

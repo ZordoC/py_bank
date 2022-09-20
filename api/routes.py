@@ -69,13 +69,13 @@ def add(account_id):
     body = request.json
     try:
         add_funds(db_session, account_id, body["amount"])
-        
+
         if body["src_bank"]:
             transfer = create_transfer(db_session, 0, account_id, body["amount"], info=body['info'], transfer_type="InterBank")
             db_session.add(transfer)
             db_session.commit()
             app.logger.info('%s Recorded Inter Transaction successfully.')
-        
+
         return f"Successfully added funds to account {account_id}"
     except (AccountNotFound):
         return "Unable to add due to account not found", 403

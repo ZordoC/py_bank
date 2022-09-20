@@ -1,15 +1,14 @@
-"""``RequestsAgent`` class module"""
+"""``RequestsAgent`` class module."""
+
 import json
+import random
 
 import requests
 
-
-from ._base import AbstractAgent
-from ._error import InvalidBankID
 from . import _error_handling as error_handling
-
-BANK_1_ID = "BANK1"
-BANK_2_ID = "BANK2"
+from ._base import AbstractAgent
+from ._const import BANK_1_ID, BANK_2_ID, COMMISSIONS, FAILURE_CHANCE, MAXIMUM_INTER_TRANSFER
+from ._error import InterTransferFailed, InvalidBankID, OverAllowedAmount
 
 
 class RequestsAgent(AbstractAgent):
@@ -36,6 +35,7 @@ class RequestsAgent(AbstractAgent):
         dest_acc_id: int,
         amount: float,
         info: str,
+        failure_chance: int = FAILURE_CHANCE,
     ):
         """Performs a transfer across banks.
 
@@ -45,11 +45,21 @@ class RequestsAgent(AbstractAgent):
             dest_id (int): _description_
             amount (float): _description_
         """
-        self._check_bank_ids(source_bank_id, dest_bank_id)
+        if amount > MAXIMUM_INTER_TRANSFER:
+            raise OverAllowedAmount(
+                f"The allowed amount for inter transfers is {MAXIMUM_INTER_TRANSFER}. \nCurrent amount: {amount}"
+            )
+        chance = random.randint(1, 100)
+        if chance <= failure_chance:
+            raise InterTransferFailed(f"Transfer Failed ...")
+
+        error_handling.check_bank_ids(source_bank_id, dest_bank_id)
 
         response = self._remove(source_bank_id, src_acc_id, amount, info)
 
         error_handling.handle_reponses(response)
+
+        amount = amount - COMMISSIONS
 
         response = self._add(dest_bank_id, dest_acc_id, amount, info)
 
@@ -82,9 +92,8 @@ class RequestsAgent(AbstractAgent):
 
         return response
 
-    @staticmethod
     def _check_bank_ids(source_bank_id: str, dest_bank_id: str):
-        if source_bank_id != BANK_1_ID or dest_bank_id != BANK_2_ID:
+        if source_bank_id != (BANK_2_ID, BANK_1_ID) or dest_bank_id not in (BANK_2_ID, BANK_1_ID):
             raise InvalidBankID("Not a valid bank id")
         return True
 

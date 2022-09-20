@@ -1,8 +1,10 @@
 """Error handling."""
 import requests
 
-from py_bank.service_layer import InsuficientBalance, AccountNotFound
-from ._error import AgentError
+from py_bank.service_layer import AccountNotFound, InsuficientBalance
+
+from ._const import BANK_1_ID, BANK_2_ID
+from ._error import AgentError, InvalidBankID
 
 
 def handle_reponses(response: requests.Response):
@@ -26,3 +28,9 @@ def handle_reponses(response: requests.Response):
         raise AgentError(
             f"Something is wrong with the response: \n {response.text},  code : {response.status_code}"
         )
+
+
+def check_bank_ids(source_bank_id: str, dest_bank_id: str):
+    if source_bank_id not in (BANK_2_ID, BANK_1_ID) or dest_bank_id not in (BANK_2_ID, BANK_1_ID):
+        raise InvalidBankID("Not a valid bank id")
+    return True
