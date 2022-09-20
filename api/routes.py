@@ -10,9 +10,9 @@ from py_bank.service_layer import (
     list_account_transfers,
     intra_money_transfer,
     remove_funds,
-    AccountNotFound,
-    InsuficientBalance,
 )
+
+from py_bank.errors import AccountNotFound, InsuficientBalance
 
 from py_bank.transfer_agent import COMISSIONS
 
