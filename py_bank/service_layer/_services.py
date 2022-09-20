@@ -5,7 +5,7 @@ from sqlalchemy.orm.session import Session
 
 from py_bank.domain._models import Account, Transfer
 
-from ._error import AccountForTransferNotFound, InsuficientBalanceforTransfer
+from ._error import AccountNotFound, InsuficientBalance
 
 # pylint: disable=W0613
 
@@ -33,17 +33,17 @@ def intra_money_transfer(session: Session, source_id: int, dest_id: int, amount:
         amount (float): Amount of money to be transfered
 
     Raises:
-        InsuficientBalanceforTransfer: _description_
+        InsuficientBalance: Not enough funds available for transfer.
     """
     try:
         sender = session.query(Account).filter_by(account_id=source_id).one()
         dest = session.query(Account).filter_by(account_id=dest_id).one()
 
     except NoResultFound as exc:
-        raise AccountForTransferNotFound("Sender or destination not present in records.") from exc
+        raise AccountNotFound("Sender or destination not present in records.") from exc
 
     if sender.balance < amount:
-        raise InsuficientBalanceforTransfer("Not enough money to transfer.")
+        raise InsuficientBalance("Not enough funds to transfer.")
 
     dest.balance += amount
     sender.balance -= amount
@@ -69,13 +69,38 @@ def _create_transfer(session, source_id: int, dest_id: int, amount: float):
 
 
 def add_funds(session: Session, account_id: str, amount: float):
-    """Add funds from an account."""
+    """Add funds from an account.
+
+    Args:
+        session (Session): Valid sqlalchemy session.
+        account_id (str): ID of the account to be charged with funds.
+        amount (float): Amount to charfe the account
+
+    Raises:
+        AccountNotFound: _description_
+    """
+    try:
+        account = session.query(Account).filter_by(account_id=account_id).one()
+    except NoResultFound as exc:
+        raise AccountNotFound("Sender or destination not present in records.") from exc
+    account.balance = account.balance + amount
+    session.commit()
 
 
-def remove_funds(account_id: str, amount: float):
+def remove_funds(session: Session, account_id: str, amount: float):
     """Remove funds from an account.
 
     Args:
         account_id (str): _description_
         amount (float): _description_
     """
+    try:
+        account = session.query(Account).filter_by(account_id=account_id).one()
+    except NoResultFound as exc:
+        raise AccountNotFound("Sender or destination not present in records.") from exc
+
+    if account.balance < amount:
+        raise InsuficientBalance("Amount surpasses balance.")
+
+    account.balance = account.balance - amount
+    session.commit()

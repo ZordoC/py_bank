@@ -6,21 +6,21 @@ import random
 import pytest
 
 from py_bank.domain import Account
-from py_bank.service_layer import AccountNotFound, add_funds
+from py_bank.service_layer import AccountNotFound, InsuficientBalance, remove_funds
 
 
-def test_add_happy_path(domain_session):
+def test_remove_fund_happy_path(domain_session):
     account = domain_session.query(Account).all()[-1]
     balance = account.balance
-    amount = random.randrange(10, 100)
+    amount = random.randrange(10, 100)  # assumes an account balance > 100.
 
-    add_funds(domain_session, account.account_id, amount)
+    remove_funds(domain_session, account.account_id, amount)
 
     new_balance = (
         domain_session.query(Account).filter_by(account_id=account.account_id).one().balance
     )
 
-    assert new_balance == balance + amount
+    assert new_balance == balance - amount
 
 
 def test_account_does_not_exist(domain_session):
@@ -32,4 +32,13 @@ def test_account_does_not_exist(domain_session):
 
     if 1203424 not in account_ids:
         with pytest.raises(AccountNotFound):
-            add_funds(domain_session, non_existing_id, 42934)  # amount doesn't matter
+            remove_funds(domain_session, non_existing_id, 42934)  # amount doesn't matter
+
+
+def test_removing_over_balance(domain_session):
+    account = domain_session.query(Account).all()[-1]
+    balance = account.balance
+    amount = balance + 1
+
+    with pytest.raises(InsuficientBalance):
+        remove_funds(domain_session, account.account_id, amount)
