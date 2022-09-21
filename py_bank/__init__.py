@@ -2,4 +2,4 @@
 
 __author__ = """Jose Pedro Godinho Rodrigues Conceicao"""
 __email__ = "pedrogodinhoc@gmail.com"
-__version__ = "0.2.0"
+__version__ = "0.3.0"
