@@ -40,3 +40,24 @@ class AbstractAgent(ABC):
             info (str): _description_
         """
         raise NotImplementedError("Interface does not have implementation")
+
+    def list_accounts(self, bank_id: str):
+        """List all accounts of a bank.
+
+        Args:
+            bank_id (str): Bank Identifier.
+
+        Returns:
+            string: List of all accounts in string format.
+        """
+
+    def list_transfers(self, bank_id: str, account_id: int):
+        """List transfers of an account in a particular bank.
+
+        Args:
+            bank_id (str): Bank Indentifier
+            account (int): Account Identifier
+
+        Returns:
+            str: String representation of all the transfers of an account.
+        """

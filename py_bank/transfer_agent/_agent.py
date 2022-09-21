@@ -97,7 +97,7 @@ class RequestsAgent(AbstractAgent):
 
         error_handling.handle_reponses(response)
 
-        return 200
+        return response
 
     def intra_transfer(
         self, bank_id: str, src_acc_id: int, dest_acc_id: int, amount: float, info: str

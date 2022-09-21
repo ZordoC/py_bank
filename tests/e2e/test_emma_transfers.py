@@ -20,7 +20,7 @@ def test_happy_path_transfer():
     # Jimmy's debts
     i = 0
     while i < 10:
-        status_code = agent.inter_transfer(
+        response = agent.inter_transfer(
             source_bank_id=ACCOUNT_MAPS["Jimmy"]["bank_id"],
             dest_bank_id=ACCOUNT_MAPS["Emma"]["bank_id"],
             src_acc_id=ACCOUNT_MAPS["Jimmy"]["acc_id"],
@@ -29,7 +29,7 @@ def test_happy_path_transfer():
             info="Jim owes money to Emma",
             failure_chance=0,
         )
-        assert status_code == 200
+        assert response.status_code == 200
         i = i + 1
 
     # Emma Paying Rent
@@ -42,7 +42,7 @@ def test_happy_path_transfer():
         info="September's Rent",
         failure_chance=0,
     )
-    assert status_code == 200
+    assert response.status_code == 200
 
     # Emma sending money to her sister
     response = agent.intra_transfer(

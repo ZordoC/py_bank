@@ -62,7 +62,7 @@ def send_money_inter(agent: AbstractAgent, amount: float, sender: str, receiver:
                     amount=left,
                     info=info,
                     failure_chance=0,
-                )
+                ).status_code
             except InterTransferFailed:
                 logging.warning("Failure ... retrying")
                 sleep(1)
@@ -93,6 +93,7 @@ def send_money_intra(agent: AbstractAgent, amount: float, sender: str, receiver:
 
 
 def _main():
+
     agent = RequestsAgent(URL_1, URL_2)  # Applying DIP
 
     bank_1_accounts = agent.list_accounts("BANK1")
