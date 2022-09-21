@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #Remove previous databases.
-rm BANK1.db
-rm BANK2.db
+rm -f BANK1.db
+rm -f BANK2.db
 
 #Start different "Banks"
 export BANK_ID="BANK1"

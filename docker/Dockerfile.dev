@@ -10,6 +10,7 @@ COPY . /app
 
 # install dependencies
 RUN pip install -r requirements_dev.txt
+RUN pip install -r requirements.txt
 
 # install tools
 RUN apt-get update && apt-get install git -y openssl -y build-essential -y

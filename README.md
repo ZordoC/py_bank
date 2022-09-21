@@ -20,9 +20,24 @@ Python Banking App
 Demo project for a bank app.
 
 
+# TLDR; quick start
+
+Set-up both bank apps.
+
+	make start-banks
+
+Run tests
+
+	make tests-unit
+	make tests-integration
+	make tests-e2e
+
+Run transfers
+
+	python -m py_bank.orchestrator
+
 
 # Definition
-
 
 
 The software you will write in this test will be used for banks. `Banks` have accounts. `Accounts` hold
@@ -446,6 +461,11 @@ These tests integrate the high level functions `py_bank.orchestrator.send_money_
 ## E2E
 
 And finally I had an old small E2E test that could use some refactoring using `py_bank.orchestrator.send_money_inter`  and `py_bank.orchestrator.send_money_intra` , they were used to test `Transfer Agent` which I thought would be my final "worker" however design evolves but this test still stands true to the whole Task 2, using a very very "happy" path where failures do not exist. Refactoring it and moving the existing E2E  to Integration would be a nice solution!
+
+
+# Deployment
+
+Ofcourse we'd need to deploy our bank apps. I have created a script to build our bank APIs docker images. Which we could envutally deploy somewhere
 
 
 # Conclusion
