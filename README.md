@@ -339,6 +339,14 @@ If you're in a docker container they should be installed by default. Otherwise:
 
 Also `python version` => 3.8
 
+Sometimes to `git pull` when first inside the container we need to change the SSL backend (manually).
+
+	apt-get install nano
+	nano ~/.gitconfig
+
+Change sslBackend to `gnutls`
+
+
 ## Setup
 
 Now that we have all dependencies installed.  We can run our `main` program that does what's described in  Part 2. (Note: if you want to have pre-commit hooks enabled you need to type `pre-commit install` this comes quite in handy, for more info about the different stages look at the `pre-commit.yaml` file.
