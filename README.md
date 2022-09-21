@@ -212,7 +212,19 @@ I try to follow KISS and SOLID approaches (not dogmatically though). For the ove
 
 The application is separated in a python package `py_bank` that contains logic used by the `api` . This way you don't need to fire up the API everytime you want to test your application. The API is only used as a wrapper for all the services that do the heavy work.
 
-Also the way I structure modules is very inspired in SKlearn design a module: https://github.com/scikit-learn/scikit-learn/tree/main/sklearn/compose
+You can install it as a package (without the flask api)
+
+	make install
+
+And create a dist file:
+
+	make dist
+
+Or build:
+
+	make build
+
+The way I structure modules is very inspired in SKlearn design a module: https://github.com/scikit-learn/scikit-learn/tree/main/sklearn/compose
 
 I basically pre-append with `_` all files in a module and consider them privately. If i need any asset I expose it from the `__init__.py` ,
 
@@ -403,7 +415,7 @@ After the pipeline, everyone got their money :-) Luke "lost" his `20000`, which 
 	INFO:  Bank 1 accounts: [{'account_id': 1, 'account_owner': 'Luke', 'balance': 1230.3}, {'account_id': 2, 'account_owner': 'Jimmy', 'balance': 480000.28}, {'account_id': 3, 'account_owner': 'Steve', 'balance': 27497.5}]
 	INFO:  Bank 2 accounts: [{'account_id': 1, 'account_owner': 'Sarah', 'balance': 4230.3}, {'account_id': 2, 'account_owner': 'Emma', 'balance': 16480.28}]
 
-To showcase how easy it is to do so I actually changed the code (one line) in another branch, where commissions are deducted from the account of the sender instead of the amount sent to the recipient. `feature/comissions_deducted_sender`
+To showcase how easy it is to do so I actually changed the code (one line) in another branch, where commissions are deducted from the account of the sender instead of the amount sent to the recipient. `feature/comissions_on_sender`
 
 Here are the results:
 
@@ -420,7 +432,7 @@ And now everyone gets their exact  money!!
 
 Also if we run again the operations they will add up. (until someone runs out of money to send). Gladly I gave Luke a lot of money so this doesn't happen while testing :-)!
 
-We can see only one line changed: https://github.com/ZordoC/py_bank/pull/1/files
+We can see only one line changed: https://github.com/ZordoC/py_bank/pull/2/files
 
 
 	INFO:  Starting payment pipeline
@@ -467,10 +479,38 @@ And finally I had an old small E2E test that could use some refactoring using `p
 
 # Deployment
 
-Ofcourse we'd need to deploy our bank apps. I have created a script to build our bank APIs docker images. Which we could envutally deploy somewhere.
+Ofcourse we'd need to deploy our bank apps at some point and not run our API locally. We have `start_banks_docker.sh` which work outside the devcontainer.
+You need to re-open project locally.
 
+Install dependencies on your machine:
+
+	python -m  venv .venv
+	. .venv/bin/activate
+	pip3 install -r requirements.txt
+
+Run:
+	bash start_banks_docker.sh
+
+And to test it:
+	python -m py_banks.orchestrator
+
+
+Remember python version => 3.8
+
+This works on my machine, MacMini M1.
 
 
 # Conclusion
+
+You can generate HTML documentation:
+
+	make docs
+
+And view it via:
+
+	make simple-http
+
+Navigate to the folder.
+
 
 This package was created with [Cookiecutter](https://github.com/audreyr/cookiecutter) and the [ZordoC/cookiecutter-simple-pypackage](https://github.com/ZordoC/cookiecutter-simple-pypackage) project template.
