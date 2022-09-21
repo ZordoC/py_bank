@@ -20,7 +20,7 @@ Python Banking App
 Demo project for a bank app.
 
 
-# TLDR; quick start
+# TLDR; quick start (inside docker container)
 
 Set-up both bank apps.
 
@@ -36,9 +36,9 @@ Run transfers
 
 	python -m py_bank.orchestrator
 
+Review results in [Application] section!
 
 # Definition
-
 
 The software you will write in this test will be used for banks. `Banks` have accounts. `Accounts` hold
 
@@ -320,12 +320,14 @@ I've developed this small application inside a docker container using VSCode, so
 ## Dependencies
 
 There are two requirements files, one for linting, and formatting tools (requirements_dev.txt) and one for the application itself (requirements.txt).
-If you're in a docker container they should be installed by default. Otherwise
+If you're in a docker container they should be installed by default. Otherwise:
 
 	python -m venv .venv
 	. .venv/bin/activate
 	pip install -r requirements_dev.txt
 	pip install -r requirements.txt
+
+Also `python version` => 3.8
 
 ## Setup
 
@@ -465,10 +467,10 @@ And finally I had an old small E2E test that could use some refactoring using `p
 
 # Deployment
 
-Ofcourse we'd need to deploy our bank apps. I have created a script to build our bank APIs docker images. Which we could envutally deploy somewhere
+Ofcourse we'd need to deploy our bank apps. I have created a script to build our bank APIs docker images. Which we could envutally deploy somewhere.
+
 
 
 # Conclusion
-
 
 This package was created with [Cookiecutter](https://github.com/audreyr/cookiecutter) and the [ZordoC/cookiecutter-simple-pypackage](https://github.com/ZordoC/cookiecutter-simple-pypackage) project template.
