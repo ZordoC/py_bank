@@ -299,7 +299,7 @@ This will take care of handling transfers, the idea was to follow "Don't depend 
 
 	def  _main():
 
-	agent = RequestsAgent(URL_1, URL_2) # Applying DIP
+	
 	new_agent = AsyncAgent(URL_1, URL2) # or whatever necesary to the init
 	.
 	.
@@ -308,7 +308,7 @@ This will take care of handling transfers, the idea was to follow "Don't depend 
 
 Function depends on the abstraction.
 
-	def send_money_inter(agent: AbstractAgent, amount: float, sender: str, receiver: str, info: str):
+	def send_money_inter(new_agent: AbstractAgent, amount: float, sender: str, receiver: str, info: str):
 	.
 	.
 
