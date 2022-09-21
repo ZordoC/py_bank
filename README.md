@@ -20,7 +20,7 @@ Python Banking App
 Demo project for a bank app.
 
 
-# TLDR; quick start (inside docker container)
+# TLDR; Quick start (inside docker container)
 
 Set-up both bank apps.
 
@@ -28,9 +28,7 @@ Set-up both bank apps.
 
 Run tests
 
-	make tests-unit
-	make tests-integration
-	make tests-e2e
+	make tests
 
 Run transfers
 
