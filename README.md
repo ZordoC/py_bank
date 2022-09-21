@@ -499,6 +499,37 @@ Remember python version => 3.8
 
 This works on my machine, MacMini M1.
 
+	Running Bank18971ce37f496c4993723d532aad682f2b53fbcc1a48589779ef9fff0c463dc34
+	Running Bank25f3416e0ce54d95eaae450fe7947e574aa4e7f83736d2684ae103d5a9db76693
+	(.venv) joserodrigues@Joses-Mac-mini py_bank % docker ps
+	CONTAINER ID   IMAGE                 COMMAND                  CREATED         STATUS         PORTS                              NAMES
+	5f3416e0ce54   flask-api/api:0.1.0   "python3 flask_api.py"   9 seconds ago   Up 8 seconds   5001/tcp, 0.0.0.0:5002->5002/tcp   xenodochial_herschel
+	8971ce37f496   flask-api/api:0.1.0   "python3 flask_api.py"   9 seconds ago   Up 8 seconds   0.0.0.0:5001->5001/tcp, 5002/tcp   musing_shamir
+	(.venv) joserodrigues@Joses-Mac-mini py_bank % python3 -m py_bank.orchestrator
+	INFO:  Starting payment pipeline
+	INFO:  Bank 1 accounts: [{'account_id': 1, 'account_owner': 'Luke', 'balance': 1230.3}, {'account_id': 2, 'account_owner': 'Jimmy', 'balance': 500000.28}, {'account_id': 3, 'account_owner': 'Steve', 'balance': 25000.0}]
+	INFO:  Bank 2 accounts: [{'account_id': 1, 'account_owner': 'Sarah', 'balance': 1230.3}, {'account_id': 2, 'account_owner': 'Emma', 'balance': 2000.28}]
+	INFO:  Emma received money from Jimmy.
+	INFO:  Steve received money from Emma.
+	INFO:  Sarah received money from Emma.
+	INFO:  Pipeline Finished
+	INFO:  Bank 1 accounts: [{'account_id': 1, 'account_owner': 'Luke', 'balance': 1230.3}, {'account_id': 2, 'account_owner': 'Jimmy', 'balance': 480000.28}, {'account_id': 3, 'account_owner': 'Steve', 'balance': 27497.5}]
+	INFO:  Bank 2 accounts: [{'account_id': 1, 'account_owner': 'Sarah', 'balance': 4230.3}, {'account_id': 2, 'account_owner': 'Emma', 'balance': 16480.28}]
+	INFO:
+
+	### Listing Transfers of accounts involved  ###
+	INFO:  Jimmy: [{'amount': 320.13, 'dest_account_id': 2, 'info': 'Vacation rental', 'src_account_id': 1, 'transfer_id': 2, 'transfer_type': 'IntraBank'}, {'amount': 2497.5, 'dest_account_id': 0, 'info': 'Sorry for the delay, Emma!', 'src_account_id': 2, 'transfer_id': 3, 'transfer_type': 'InterBank'}, {'amount': 2497.5, 'dest_account_id': 0, 'info': 'Sorry for the delay, Emma!', 'src_account_id': 2, 'transfer_id': 4, 'transfer_type': 'InterBank'}, {'amount': 2497.5, 'dest_account_id': 0, 'info': 'Sorry for the delay, Emma!', 'src_account_id': 2, 'transfer_id': 5, 'transfer_type': 'InterBank'}, {'amount': 2497.5, 'dest_account_id': 0, 'info': 'Sorry for the delay, Emma!', 'src_account_id': 2, 'transfer_id': 6, 'transfer_type': 'InterBank'}, {'amount': 2497.5, 'dest_account_id': 0, 'info': 'Sorry for the delay, Emma!', 'src_account_id': 2, 'transfer_id': 7, 'transfer_type': 'InterBank'}, {'amount': 2497.5, 'dest_account_id': 0, 'info': 'Sorry for the delay, Emma!', 'src_account_id': 2, 'transfer_id': 8, 'transfer_type': 'InterBank'}, {'amount': 2497.5, 'dest_account_id': 0, 'info': 'Sorry for the delay, Emma!', 'src_account_id': 2, 'transfer_id': 9, 'transfer_type': 'InterBank'}, {'amount': 2497.5, 'dest_account_id': 0, 'info': 'Sorry for the delay, Emma!', 'src_account_id': 2, 'transfer_id': 10, 'transfer_type': 'InterBank'}]
+
+
+	INFO:  Emma: [{'amount': 1203.23, 'dest_account_id': 1, 'info': 'Rent money', 'src_account_id': 2, 'transfer_id': 1, 'transfer_type': 'IntraBank'}, {'amount': 2497.5, 'dest_account_id': 2, 'info': 'Sorry for the delay, Emma!', 'src_account_id': 0, 'transfer_id': 3, 'transfer_type': 'InterBank'}, {'amount': 2497.5, 'dest_account_id': 2, 'info': 'Sorry for the delay, Emma!', 'src_account_id': 0, 'transfer_id': 4, 'transfer_type': 'InterBank'}, {'amount': 2497.5, 'dest_account_id': 2, 'info': 'Sorry for the delay, Emma!', 'src_account_id': 0, 'transfer_id': 5, 'transfer_type': 'InterBank'}, {'amount': 2497.5, 'dest_account_id': 2, 'info': 'Sorry for the delay, Emma!', 'src_account_id': 0, 'transfer_id': 6, 'transfer_type': 'InterBank'}, {'amount': 2497.5, 'dest_account_id': 2, 'info': 'Sorry for the delay, Emma!', 'src_account_id': 0, 'transfer_id': 7, 'transfer_type': 'InterBank'}, {'amount': 2497.5, 'dest_account_id': 2, 'info': 'Sorry for the delay, Emma!', 'src_account_id': 0, 'transfer_id': 8, 'transfer_type': 'InterBank'}, {'amount': 2497.5, 'dest_account_id': 2, 'info': 'Sorry for the delay, Emma!', 'src_account_id': 0, 'transfer_id': 9, 'transfer_type': 'InterBank'}, {'amount': 2497.5, 'dest_account_id': 2, 'info': 'Sorry for the delay, Emma!', 'src_account_id': 0, 'transfer_id': 10, 'transfer_type': 'InterBank'}, {'amount': 2497.5, 'dest_account_id': 0, 'info': "September's Rent", 'src_account_id': 2, 'transfer_id': 11, 'transfer_type': 'InterBank'}, {'amount': 3000.0, 'dest_account_id': 1, 'info': '', 'src_account_id': 2, 'transfer_id': 12, 'transfer_type': 'IntraBank'}]
+
+
+	INFO:  Steve: [{'amount': 1203.23, 'dest_account_id': 3, 'info': 'Rent money', 'src_account_id': 1, 'transfer_id': 1, 'transfer_type': 'IntraBank'}, {'amount': 2497.5, 'dest_account_id': 3, 'info': "September's Rent", 'src_account_id': 0, 'transfer_id': 11, 'transfer_type': 'InterBank'}]
+
+
+	INFO:  Sarah: [{'amount': 1203.23, 'dest_account_id': 1, 'info': 'Rent money', 'src_account_id': 2, 'transfer_id': 1, 'transfer_type': 'IntraBank'}, {'amount': 320.13, 'dest_account_id': 1, 'info': 'Vacation rental', 'src_account_id': 10, 'transfer_id': 2, 'transfer_type': 'IntraBank'}, {'amount': 3000.0, 'dest_account_id': 1, 'info': '', 'src_account_id': 2, 'transfer_id': 12, 'transfer_type': 'IntraBank'}]
+
+
 
 # Conclusion
 

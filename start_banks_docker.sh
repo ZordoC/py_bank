@@ -3,6 +3,9 @@
 printf "Building Docker image"
 docker build -t flask-api/api:0.1.0  -f docker/Dockerfile.api .
 
+rm -f BANK1.db
+rm -f BANK2.db
+
 printf "Running Bank1"
 docker run --env "BANK_ID=BANK1" -p 5001:5001 -d flask-api/api:0.1.0
 

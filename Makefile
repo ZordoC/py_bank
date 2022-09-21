@@ -104,6 +104,8 @@ tests-e2e:
 
 tests-basic: tests-unit test-integration
 
+tests: tests-basic tests-e2e
+
 simple-http:
 	python3 -m http.server
 
