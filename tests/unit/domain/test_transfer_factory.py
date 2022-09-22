@@ -1,4 +1,4 @@
-"""Module to test ``py_bank.domain.Transfer.factory."""
+"""Module to test ``py_bank.service_layer.services.create_transfer."""
 from sqlalchemy import func
 
 from py_bank.domain import Transfer
