@@ -6,7 +6,6 @@ from api import app
 
 from py_bank.service_layer import (
     add_funds,
-    create_transfer,
     list_account_transfers,
     intra_money_transfer,
     remove_funds,
