@@ -19,7 +19,7 @@ from py_bank.errors import InterTransferFailed
 from py_bank.transfer_agent import ACCOUNT_MAPPING, MAXIMUM_INTER_TRANSFER, URL_1, URL_2, AbstractAgent, RequestsAgent
 
 
-def send_money_inter(agent: AbstractAgent, amount: float, sender: str, receiver: str, info: str):
+def send_money_inter(agent: AbstractAgent, amount: float, sender: str, receiver: str, info: str = ""):
     """Send money from one person to the other ()
 
     Args:
@@ -37,15 +37,14 @@ def send_money_inter(agent: AbstractAgent, amount: float, sender: str, receiver:
     i = 0
     while i < batches:
         try:
-            status_code = agent.inter_transfer(
+            _ = agent.inter_transfer(
                 source_bank_id=str(ACCOUNT_MAPPING[sender]["bank_id"]),
                 dest_bank_id=str(ACCOUNT_MAPPING[receiver]["bank_id"]),
                 src_acc_id=int(ACCOUNT_MAPPING[sender]["acc_id"]),
                 dest_acc_id=int(ACCOUNT_MAPPING[receiver]["acc_id"]),
                 amount=MAXIMUM_INTER_TRANSFER,
                 info=info,
-                failure_chance=0,
-            )
+            ).status_code
             i += 1
         except InterTransferFailed:
             logging.warning("Failure ... retrying")
@@ -61,7 +60,6 @@ def send_money_inter(agent: AbstractAgent, amount: float, sender: str, receiver:
                     dest_acc_id=ACCOUNT_MAPPING[receiver]["acc_id"],
                     amount=left,
                     info=info,
-                    failure_chance=0,
                 ).status_code
             except InterTransferFailed:
                 logging.warning("Failure ... retrying")
@@ -69,7 +67,7 @@ def send_money_inter(agent: AbstractAgent, amount: float, sender: str, receiver:
                 continue
 
 
-def send_money_intra(agent: AbstractAgent, amount: float, sender: str, receiver: str, info: str):
+def send_money_intra(agent: AbstractAgent, amount: float, sender: str, receiver: str, info: str = ""):
     """Send monkey within the same bank.
 
     Args:
@@ -92,7 +90,7 @@ def send_money_intra(agent: AbstractAgent, amount: float, sender: str, receiver:
     )
 
 
-def _main():
+def _main():  # pragma: no cover
 
     agent = RequestsAgent(URL_1, URL_2)  # Applying DIP
 
@@ -144,4 +142,4 @@ def _main():
 
 
 if __name__ == "__main__":
-    _main()
+    _main()  # pragma: no cover

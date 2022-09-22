@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 # pylint: disable=too-many-arguments
 
 
-class AbstractAgent(ABC):
+class AbstractAgent(ABC):  # pragma: no cover
     """Agent facilitates transfers between two distinct banks,"""
 
     @abstractmethod
@@ -41,6 +41,7 @@ class AbstractAgent(ABC):
         """
         raise NotImplementedError("Interface does not have implementation")
 
+    @abstractmethod
     def list_accounts(self, bank_id: str):
         """List all accounts of a bank.
 
@@ -50,7 +51,9 @@ class AbstractAgent(ABC):
         Returns:
             string: List of all accounts in string format.
         """
+        raise NotImplementedError("Interface does not have implementation")
 
+    @abstractmethod
     def list_transfers(self, bank_id: str, account_id: int):
         """List transfers of an account in a particular bank.
 
@@ -61,3 +64,4 @@ class AbstractAgent(ABC):
         Returns:
             str: String representation of all the transfers of an account.
         """
+        raise NotImplementedError("Interface does not have implementation")
