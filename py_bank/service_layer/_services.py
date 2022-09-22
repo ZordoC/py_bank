@@ -49,7 +49,7 @@ def intra_money_transfer(session: Session, source_id: int, dest_id: int, amount:
     dest.balance += amount
     sender.balance -= amount
 
-    transfer = create_transfer(session, source_id, dest_id, amount, info)
+    transfer = Transfer.factory(session, source_id, dest_id, amount, info)
 
     session.add(transfer)
     session.commit()
