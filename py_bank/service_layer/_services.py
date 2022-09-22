@@ -1,7 +1,4 @@
 """Module contains the different services used."""
-from typing import Literal
-
-from sqlalchemy import func
 from sqlalchemy.exc import NoResultFound  # type: ignore[attr-defined]
 from sqlalchemy.orm.session import Session
 
@@ -49,31 +46,10 @@ def intra_money_transfer(session: Session, source_id: int, dest_id: int, amount:
     dest.balance += amount
     sender.balance -= amount
 
-    transfer = create_transfer(session, source_id, dest_id, amount, info)
+    transfer = Transfer.factory(session, source_id, dest_id, amount, info)
 
     session.add(transfer)
     session.commit()
-
-
-def create_transfer(
-    session,
-    source_id: int,
-    dest_id: int,
-    amount: float,
-    info: str,
-    transfer_type: Literal["IntraBank", "InterBank"] = "IntraBank",
-):  # pylint: disable=too-many-arguments
-    """Add a Transfer to records.
-
-    Args:
-        session (Session): Valid sqlalchemy session.
-        source_id (str): Account id of origin.
-        dest_id (str): Account ID of destination.
-        amount (float): Amount of money to be transfered
-    """
-    largest_id = session.query(func.max(Transfer.transfer_id)).one()[0]
-    new_id = largest_id + 1  # hacky way to make sure it's doesn't break primary key constraint.
-    return Transfer(new_id, amount, transfer_type, source_id, dest_id, info)
 
 
 def add_funds(session: Session, account_id: str, amount: float):

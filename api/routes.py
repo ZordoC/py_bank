@@ -16,7 +16,7 @@ from py_bank.errors import AccountNotFound, InsuficientBalance
 
 from py_bank.transfer_agent import COMISSIONS
 
-from py_bank.domain import Account
+from py_bank.domain import Account, Transfer
 
 bank_id = os.environ.get("BANK_ID")
 
@@ -69,7 +69,7 @@ def add(account_id):
         add_funds(db_session, account_id, body["amount"])
 
         if body["src_bank"]:
-            transfer = create_transfer(db_session, 0, account_id, body["amount"], info=body['info'], transfer_type="InterBank")
+            transfer = Transfer.factory(db_session, 0, account_id, body["amount"], info=body['info'], transfer_type="InterBank")
             db_session.add(transfer)
             db_session.commit()
             app.logger.info('%s Recorded Inter Transaction successfully.')
@@ -92,7 +92,7 @@ def remove(account_id):
     try:
         remove_funds(db_session, account_id, body["amount"])
         if body['dest_bank']:
-            transfer = create_transfer(db_session, account_id, 0, body["amount"] - COMISSIONS, info=body['info'], transfer_type="InterBank")
+            transfer = Transfer.factory(db_session, account_id, 0, body["amount"] - COMISSIONS, info=body['info'], transfer_type="InterBank")
             db_session.add(transfer)
             db_session.commit()
             app.logger.info('%s Recorded Inter Transaction successfully.')
