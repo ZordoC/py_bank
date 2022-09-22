@@ -20,9 +20,5 @@ def test_intra_same_bank(agent):
 
 def test_intra_different_bank(agent):
 
-    jimmy_transfers = agent.list_transfers(
-        ACCOUNT_MAPPING["Jimmy"]["bank_id"], ACCOUNT_MAPPING["Jimmy"]["acc_id"]
-    ).json()
-
     with pytest.raises(ValueError):
         send_money_intra(agent, 3000, "Jimmy", "Emma", "Integration testing")

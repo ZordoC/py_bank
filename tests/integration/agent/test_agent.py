@@ -69,3 +69,21 @@ def test_force_failure(agent):
             info="Jim owes too much money to Emma",
             failure_chance=100,
         )
+
+
+def test_agent_list_accounts(agent):
+    bank_1 = agent.list_accounts("BANK1")
+    bank_2 = agent.list_accounts("BANK2")
+
+    assert len(bank_1.json()) > 1
+    assert len(bank_2.json()) > 1
+
+
+def test_agent_list_accounts_bad_bank_id(agent):
+    with pytest.raises(InvalidBankID):
+        bank_1 = agent.list_accounts("NOTEXISTINGBANK")
+
+
+def test_agent_list_transfers_bad_bank_id(agent):
+    with pytest.raises(InvalidBankID):
+        bank_1 = agent.list_transfers("NOTEXISTINGBANK", 2)
