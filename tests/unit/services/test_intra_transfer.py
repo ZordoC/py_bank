@@ -6,7 +6,7 @@ import random
 import pytest
 from sqlalchemy import func
 
-from py_bank.domain import Account, Transfer
+from py_bank.domain import Account, TransferRecord
 from py_bank.errors import AccountNotFound, InsuficientBalance
 from py_bank.service_layer import intra_money_transfer
 
@@ -77,11 +77,11 @@ def test_intra_transfer_generated_transfer(domain_session):
     # To make sure we are sending less money than sender has
     transfered_amount = before_sender_balance - random.randrange(10, 100)  # random integer
 
-    transfers_before = domain_session.query(Transfer).all()
+    transfers_before = domain_session.query(TransferRecord).all()
 
     intra_money_transfer(domain_session, source_id, dest_id, transfered_amount)
 
-    transfers_after = domain_session.query(Transfer).all()
+    transfers_after = domain_session.query(TransferRecord).all()
 
     assert len(transfers_after) > len(transfers_before)
 

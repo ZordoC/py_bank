@@ -2,7 +2,7 @@
 from sqlalchemy import Column, Float, Integer, MetaData, String, Table
 from sqlalchemy.orm import mapper
 
-from py_bank.domain._models import Account, Transfer
+from py_bank.domain._models import Account, TransferRecord
 
 metadata = MetaData()
 
@@ -29,4 +29,4 @@ transfers = Table(
 def start_mappers():
     """Map ``Account`` and ``Transfer`` to accounts and transfers."""
     mapper(Account, accounts)
-    mapper(Transfer, transfers)
+    mapper(TransferRecord, transfers)

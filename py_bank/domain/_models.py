@@ -36,9 +36,13 @@ class Account:
         self.balance -= amount
 
 
-@dataclass()
-class Transfer:
-    """Model for a Transfer."""
+@dataclass
+class TransferRecord:
+    """Responsible for recording a transfer in the database.
+
+    Returns:
+        _type_: _description_
+    """
 
     transfer_id: int
     amount: float
