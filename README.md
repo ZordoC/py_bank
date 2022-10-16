@@ -26,9 +26,9 @@ Set-up both bank apps.
 
 	make start-banks
 
-Run tests
+Run tests and check coverage.
 
-	make tests
+	make cov
 
 Run transfers
 

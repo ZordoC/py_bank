@@ -67,7 +67,7 @@ def add_funds(session: Session, account_id: str, amount: float):
         account = session.query(Account).filter_by(account_id=account_id).one()
     except NoResultFound as exc:
         raise AccountNotFound("Sender or destination not present in records.") from exc
-    account.balance = account.balance + amount
+    account.deposit(amount)
     session.commit()
 
 
@@ -86,5 +86,5 @@ def remove_funds(session: Session, account_id: str, amount: float):
     if account.balance < amount:
         raise InsuficientBalance("Amount surpasses balance.")
 
-    account.balance = account.balance - amount
+    account.withdraw(amount)
     session.commit()

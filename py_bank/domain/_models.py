@@ -14,6 +14,27 @@ class Account:
     account_id: int
     balance: float
 
+    def deposit(self, amount: float) -> None:
+        """Deposit money into account.
+
+        Args:
+            amount (int): Amount deposited.
+        """
+        self.balance += amount
+
+    def withdraw(self, amount: float) -> None:
+        """Withdraws money from an account.
+
+        Args:
+            amount (int): Amount withdrawn.
+
+        Raises:
+            ValueError: _description_
+        """
+        if amount > self.balance:
+            raise ValueError("Insufficient funds")
+        self.balance -= amount
+
 
 @dataclass()
 class Transfer:
