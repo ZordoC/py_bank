@@ -5,6 +5,8 @@ from typing import Literal
 from sqlalchemy import func
 from sqlalchemy.orm.session import Session
 
+from py_bank.errors import InsuficientBalance
+
 
 @dataclass
 class Account:
@@ -32,7 +34,7 @@ class Account:
             ValueError: _description_
         """
         if amount > self.balance:
-            raise ValueError("Insufficient funds")
+            raise InsuficientBalance("Insufficient funds to perform withdrawal")
         self.balance -= amount
 
 

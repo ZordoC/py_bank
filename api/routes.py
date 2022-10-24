@@ -5,17 +5,17 @@ from flask import request
 from api import app
 
 from py_bank.service_layer import (
-    add_funds,
+    get_account_from_id,
+    execute_command,
     list_account_transfers,
     intra_money_transfer,
-    remove_funds,
 )
 
 from py_bank.errors import AccountNotFound, InsuficientBalance
 
 from py_bank.transfer_agent import COMISSIONS
 
-from py_bank.domain import Account, Transfer
+from py_bank.domain import Account, Deposit, Transfer, TransferRecord, Withdrawal
 
 bank_id = os.environ.get("BANK_ID")
 
@@ -45,8 +45,14 @@ def transfer():
     """
     body = request.json
     try:
-        intra_money_transfer(db_session, body["source"], body["destination"], body["amount"])
+        execute_command(db_session, Transfer(body["source"], body["destination"], body["amount"], body["amount"]))
+
+        transfer = TransferRecord.factory(db_session, body["source"], body["destination"], body["amount"], info=body['info'], transfer_type="InterBank")
+        db_session.add(transfer)
+        db_session.commit()
+        app.logger.info('%s Recorded Inter Transaction successfully.')
         return f"Successfully added funds from account {body['source']} to {body['destination']}", 200
+
     except InsuficientBalance:
         return "Unable to transfer due to insuficient balance", 402
 
@@ -65,15 +71,17 @@ def add(account_id):
     account_id = int(account_id)
     body = request.json
     try:
-        add_funds(db_session, account_id, body["amount"])
+        account = get_account_from_id(db_session, account_id)
+        execute_command(db_session, Deposit(account, body["amount"]))
 
         if body["src_bank"]:
-            transfer = Transfer.factory(db_session, 0, account_id, body["amount"], info=body['info'], transfer_type="InterBank")
+            transfer = TransferRecord.factory(db_session, 0, account_id, body["amount"], info=body['info'], transfer_type="InterBank")
             db_session.add(transfer)
             db_session.commit()
             app.logger.info('%s Recorded Inter Transaction successfully.')
 
         return f"Successfully added funds to account {account_id}"
+
     except (AccountNotFound):
         return "Unable to add due to account not found", 403
 
@@ -89,9 +97,11 @@ def remove(account_id):
     body = request.json
 
     try:
-        remove_funds(db_session, account_id, body["amount"])
+        account = get_account_from_id(db_session, account_id)
+        execute_command(db_session, Withdrawal(account, body["amount"]))
+
         if body['dest_bank']:
-            transfer = Transfer.factory(db_session, account_id, 0, body["amount"] - COMISSIONS, info=body['info'], transfer_type="InterBank")
+            transfer = TransferRecord.factory(db_session, account_id, 0, body["amount"] - COMISSIONS, info=body['info'], transfer_type="InterBank")
             db_session.add(transfer)
             db_session.commit()
             app.logger.info('%s Recorded Inter Transaction successfully.')

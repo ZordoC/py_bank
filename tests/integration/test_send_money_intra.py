@@ -19,6 +19,5 @@ def test_intra_same_bank(agent):
 
 
 def test_intra_different_bank(agent):
-
     with pytest.raises(ValueError):
         send_money_intra(agent, 3000, "Jimmy", "Emma", "Integration testing")

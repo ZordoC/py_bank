@@ -10,6 +10,7 @@ From sources
 
 The sources for Python Banking App can be downloaded from the `Github repo`_.
 
+
 You can either clone the public repository:
 
 .. code-block:: console

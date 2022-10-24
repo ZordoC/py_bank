@@ -2,8 +2,9 @@
 from sqlalchemy.exc import NoResultFound  # type: ignore[attr-defined]
 from sqlalchemy.orm.session import Session
 
-from py_bank.domain._commands import Deposit, Transfer, Withdrawal
+from py_bank.domain._commands import Transfer
 from py_bank.domain._models import Account, TransferRecord
+from py_bank.domain._transactions import Transaction
 from py_bank.errors import AccountNotFound, InsuficientBalance
 
 # pylint: disable=W0613
@@ -44,7 +45,7 @@ def intra_money_transfer(session: Session, source_id: int, dest_id: int, amount:
     if sender.balance < amount:
         raise InsuficientBalance("Not enough funds to transfer.")
 
-    command = Transfer(sender, dest, amount)
+    command = Transfer(sender, dest, amount, info)
     command.execute()
     transfer_record = TransferRecord.factory(session, sender.account_id, dest.account_id, amount, info)
 
@@ -52,43 +53,29 @@ def intra_money_transfer(session: Session, source_id: int, dest_id: int, amount:
     session.commit()
 
 
-def add_funds(session: Session, account_id: str, amount: float):
-    """Add funds from an account.
+def get_account_from_id(session: Session, account_id: int) -> Account:
+    """Create an ``Account`` object given it's id.
+
+    Args:
+        session (Session): Session to the database.
+        account_id (int): ``Account`` object identifer.
+
+    Returns:
+        Account: An ``Account`` object.
+    """
+    try:
+        account = session.query(Account).filter_by(account_id=account_id).one()
+    except NoResultFound as exc:
+        raise AccountNotFound("Sender or destination not present in records.") from exc
+    return account
+
+
+def execute_command(session: Session, command: Transaction):
+    """Executes a Transaction.
 
     Args:
         session (Session): Valid sqlalchemy session.
-        account_id (str): ID of the account to be charged with funds.
-        amount (float): Amount to charfe the account
-
-    Raises:
-        AccountNotFound: _description_
+        command: ``Transaction`` type object.
     """
-    try:
-        account = session.query(Account).filter_by(account_id=account_id).one()
-    except NoResultFound as exc:
-        raise AccountNotFound("Sender or destination not present in records.") from exc
-
-    command = Deposit(account, amount)
     command.execute()
-    session.commit()
-
-
-def remove_funds(session: Session, account_id: str, amount: float):
-    """Remove funds from an account.
-
-    Args:
-        account_id (str): _description_
-        amount (float): _description_
-    """
-    try:
-        account = session.query(Account).filter_by(account_id=account_id).one()
-    except NoResultFound as exc:
-        raise AccountNotFound("Sender or destination not present in records.") from exc
-
-    if account.balance < amount:
-        raise InsuficientBalance("Amount surpasses balance.")
-
-    command = Withdrawal(account, amount)
-    command.execute()
-
     session.commit()

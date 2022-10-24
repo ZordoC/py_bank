@@ -85,7 +85,6 @@ This operation will move money from one to another account, please consider case
 account **does not have funding, or any other kind of possible errors.**
 
 
-
 3. Method to add funds to the account.
 
     **Method**: PUT

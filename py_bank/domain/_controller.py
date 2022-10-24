@@ -5,7 +5,7 @@ from ._transactions import Transaction
 
 
 @dataclass
-class BankController:
+class BankMediator:
     """Controller to execute commands."""
 
     def execute(self, command: Transaction) -> None:

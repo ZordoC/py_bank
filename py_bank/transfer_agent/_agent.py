@@ -102,7 +102,7 @@ class RequestsAgent(AbstractAgent):
     def intra_transfer(
         self, bank_id: str, src_acc_id: int, dest_acc_id: int, amount: float, info: str
     ):  # pylint: disable=too-many-arguments
-        """_summary_
+        """Performs transfer between two accounts in the same bank.
 
         Args:
             bank_id (str): _description_
