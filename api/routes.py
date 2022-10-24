@@ -8,7 +8,6 @@ from py_bank.service_layer import (
     get_account_from_id,
     execute_command,
     list_account_transfers,
-    intra_money_transfer,
 )
 
 from py_bank.errors import AccountNotFound, InsuficientBalance

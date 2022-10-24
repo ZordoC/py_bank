@@ -45,10 +45,9 @@ def intra_money_transfer(session: Session, source_id: int, dest_id: int, amount:
     if sender.balance < amount:
         raise InsuficientBalance("Not enough funds to transfer.")
 
-    command = Transfer(sender, dest, amount, info)
-    command.execute()
-    transfer_record = TransferRecord.factory(session, sender.account_id, dest.account_id, amount, info)
+    execute_command(session, Transfer(sender, dest, amount, info))
 
+    transfer_record = TransferRecord.factory(session, sender.account_id, dest.account_id, amount, info)
     session.add(transfer_record)
     session.commit()
 
