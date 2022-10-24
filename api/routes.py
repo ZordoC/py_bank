@@ -8,6 +8,7 @@ from py_bank.service_layer import (
     get_account_from_id,
     execute_command,
     list_account_transfers,
+    intra_money_transfer,
 )
 
 from py_bank.errors import AccountNotFound, InsuficientBalance
@@ -44,12 +45,7 @@ def transfer():
     """
     body = request.json
     try:
-        execute_command(db_session, Transfer(body["source"], body["destination"], body["amount"], body["amount"]))
-
-        transfer = TransferRecord.factory(db_session, body["source"], body["destination"], body["amount"], info=body['info'], transfer_type="InterBank")
-        db_session.add(transfer)
-        db_session.commit()
-        app.logger.info('%s Recorded Inter Transaction successfully.')
+        intra_money_transfer(db_session, body["source"], body["destination"], body["amount"])
         return f"Successfully added funds from account {body['source']} to {body['destination']}", 200
 
     except InsuficientBalance:
