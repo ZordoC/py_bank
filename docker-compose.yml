@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+
+  orchestrator:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    entrypoint: "python"
+    command: "-m  py_bank.orchestrator"
+    depends_on:
+      - bank1
+      - bank2
+
+  bank1:
+    container_name: bank1
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.api
+    ports: 
+      - 5001:5001
+    environment:
+      - BANK_ID=BANK1 
+
+  bank2:
+    container_name: bank2
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.api
+    ports: 
+      - 5002:5002
+    environment:
+      - BANK_ID=BANK2
+

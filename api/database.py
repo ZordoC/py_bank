@@ -32,17 +32,17 @@ def add_data_bank_1(db_session: Session):
 
     # Adding data
     db_session.execute(
-        "INSERT INTO Accounts (account_owner, account_id, balance)" " VALUES ('Luke', 1, 1230.30)"
+        "INSERT INTO accounts (account_owner, account_id, balance)" " VALUES ('Luke', 1, 1230.30)"
     )
     db_session.execute(
-        "INSERT INTO Accounts (account_owner, account_id, balance)" " VALUES ('Jimmy', 2, 500000.28)"
+        "INSERT INTO accounts (account_owner, account_id, balance)" " VALUES ('Jimmy', 2, 500000.28)"
     )
     db_session.execute(
-        "INSERT INTO Accounts (account_owner, account_id, balance)" " VALUES ('Steve', 3, 25000)"
+        "INSERT INTO accounts (account_owner, account_id, balance)" " VALUES ('Steve', 3, 25000)"
     )
 
     db_session.execute(
-        "INSERT INTO Transfers (transfer_id, amount, transfer_type, src_account_id, dest_account_id, info)"
+        "INSERT INTO transfers (transfer_id, amount, transfer_type, src_account_id, dest_account_id, info)"
         ' VALUES (1, 1203.23, "IntraBank", 1, 3, "Rent money")'
     )
     db_session.execute(
@@ -60,14 +60,14 @@ def add_data_bank_2(db_session: Session):
     """
     # Adding data
     db_session.execute(
-        "INSERT INTO Accounts (account_owner, account_id, balance)" " VALUES ('Sarah', 1, 1230.30)"
+        "INSERT INTO accounts (account_owner, account_id, balance)" " VALUES ('Sarah', 1, 1230.30)"
     )
     db_session.execute(
-        "INSERT INTO Accounts (account_owner, account_id,  balance)"
+        "INSERT INTO accounts (account_owner, account_id,  balance)"
         " VALUES ('Emma', 2 , 2000.28)"
     )
     db_session.execute(
-        "INSERT INTO Transfers (transfer_id, amount, transfer_type, src_account_id, dest_account_id, info)"
+        "INSERT INTO transfers (transfer_id, amount, transfer_type, src_account_id, dest_account_id, info)"
         ' VALUES (1, 1203.23, "IntraBank", 2, 1, "Rent money")'
     )
     db_session.execute(

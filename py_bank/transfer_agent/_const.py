@@ -1,7 +1,7 @@
 """Module for constants."""
 
-URL_1 = "http://127.0.0.1:5001"
-URL_2 = "http://127.0.0.1:5002"
+URL_1 = "http://bank1:5001"
+URL_2 = "http://bank2:5002"
 
 BANK_1_ID = "BANK1"
 BANK_2_ID = "BANK2"
